@@ -9,9 +9,10 @@
       @click="musicItemDidClick(index)"
       ) {{musicList[index]}}
   .music-player
-    .music-play-icon
-  audio(controls ref='audio')
-    source(src='/musics/离别开出花.mp4')
+    .music-play-button(@click="playMusic")
+      .music-play-icon
+  audio(style="display:none" ref="audioplayer")
+
 </template>
 
 <script setup lang="ts">
@@ -39,15 +40,24 @@ let musicList = [
 ]
 let musicUri = musicList.map((m) => '/musics/' + m + '.mp4');
 console.log(musicUri);
-var playingIndex = 0;
+var currentIndex = 0;
 function itemStyle(index: number) {
-  let isPlaying = playingIndex == index;
+  let isPlaying = currentIndex == index;
   return isPlaying ? 'color:#88AB8E;background-color:#F2F1EB' : '';
 }
 function musicItemDidClick(index: number) {
-  playingIndex = index;
+  currentIndex = index;
   console.log(index);
-  this.$set(this.musicList, index);
+  // this.$set(this.musicList, index);
+}
+
+function playMusic() {
+  console.log(currentIndex);
+
+  let audio = document.querySelector("audio");
+  audio.setAttribute("src",musicUri[currentIndex]); 
+  console.log(audio);
+  audio.play();
 }
 </script>
 
@@ -72,10 +82,22 @@ function musicItemDidClick(index: number) {
     background-color #AFC8AD
     height 60px
     padding 0
-    .music-play-icon
-      mask-image url(/icons/play.svg)
+    display flex
+    flex-direction row
+    justify-content flex-start
+    .music-play-button
+      padding auto
       width 60px
       height 60px
+      display flex
+      justify-content center
+      align-items center
+      .music-play-icon
+        background-image url(/icons/play.png)
+        background-size 30px 30px
+        width 30px
+        height 30px
+        filter: invert(54%) sepia(4%) saturate(1085%) hue-rotate(73deg) brightness(94%) contrast(84%)
   .icon-play
     mask-image: url(icon.svg);
   .iconfont 
