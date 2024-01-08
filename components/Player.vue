@@ -9,9 +9,9 @@
       @click="musicItemDidClick(index)"
       ) {{musicList[index]}}
   .music-player
-    .music-play-button(@click="playMusic")
-      .music-play-icon
-  audio(style="display:none" ref="audioplayer")
+    .music-play-button(@click="playMusic(false)")
+      .music-button-icon.music-play-icon
+  audio(style="display:none" ref="audioplayer" @timeupdate="updateAudioTime")
 
 </template>
 
@@ -51,13 +51,46 @@ function musicItemDidClick(index: number) {
   // this.$set(this.musicList, index);
 }
 
-function playMusic() {
+function playLoopMusic() {
+  playMusic(true);
+}
+
+function playMusic(shouldLoop: boolean) {
   console.log(currentIndex);
 
   let audio = document.querySelector("audio");
+  let playerButton = document.querySelector(".music-button-icon");
   audio.setAttribute("src",musicUri[currentIndex]); 
-  console.log(audio);
-  audio.play();
+  if (shouldLoop) {
+    audio.play();
+  } else {
+    if (audio.paused) {
+      audio.play();
+      playerButton.setAttribute("class", "music-button-icon music-puase-icon");
+    } else {
+      audio.pause();
+      playerButton.setAttribute("class", "music-button-icon music-play-icon");
+    }
+  }
+  
+}
+
+function updateAudioTime() {
+  let audio = document.querySelector("audio");
+
+  const percentagePosition = (audio.currentTime) / audio.duration;
+  console.log(percentagePosition);
+  
+  if (percentagePosition >= 0.99999999) {
+    // audio.stop()
+    currentIndex = currentIndex + 1
+    currentIndex = currentIndex % musicList.length
+    console.log(currentIndex);
+    playLoopMusic();
+  }
+  // timeline.style.backgroundSize = `${percentagePosition}% 100%`;
+  // timeline.value = percentagePosition;
+
 }
 </script>
 
@@ -92,12 +125,16 @@ function playMusic() {
       display flex
       justify-content center
       align-items center
-      .music-play-icon
-        background-image url(/icons/play.png)
+      .music-button-icon
         background-size 30px 30px
         width 30px
         height 30px
+        border-radius 30px
         filter: invert(54%) sepia(4%) saturate(1085%) hue-rotate(73deg) brightness(94%) contrast(84%)
+      .music-play-icon
+        background-image url(/icons/play.png)
+      .music-puase-icon
+        background-image url(/icons/pause.png)
   .icon-play
     mask-image: url(icon.svg);
   .iconfont 
