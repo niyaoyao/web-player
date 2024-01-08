@@ -25,7 +25,7 @@ useHead(() => ({
     { rel: 'icon', href: "data:;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAWJAAAFiQFtaJ36AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJgSURBVHgBpZTLaxNRFMa/mUmapklj05BEgo8i+EAwFquiVly4MT7A/0BQdONOunPtuiCCXShCqVtFAurOUEEUu7BoXUiTUAspZkwmSZNhapN0/O4kSkgzSasHfnNP7j3z5ZyTmwM0zE/ukR/E3CYpMkmGmlqIkOQ/CLXzjeyQ+Jgm12BjZ66GoHB1tKA0mZ3VUCzWWsOnhOAacdkJTs6fxsEjXnjpe5nHIKSGz/X29QU8ncm0huflbmLCPrzJ4ycrUulnJYGJrPC5Fx0fag8PyOhhnxOaJaZaog1hVYiS0cuBTfGOXoKpRAErRh0+twwPy/zyvoD4xCJEJkqH+J6C1Uodi3MljJzzw2CGyoEBJD+WYJqd4+1LZr/CNyM48fYYcNQLjSXmuW0EnAiODtq+1jFDySFhdzyK4diw9Y0VqovL4aboL66h836on8rYcoahh2fRHzvEEt0oU6zIUgtE41mO+C4GYGcdBavpGirPK6hrAWYWYFYuZgmsUlSIy6d8kAc6d0tcbKu9ktcNz6Xj8Fw4DM+V/VCCJg+FTMmSEsjMV8E6+vhJf5mH/ioPjauxvLZZ8I8594UxkpwSr5CyhWStFK2VYLxLQ3+dQeHBEkxjwz7DVts19wj9Y3t5KEQrf2kIl7C+8B1L0RfYcg+1u48hppHJ/pkI0g+RMP2dJAL1zjzsTFz2CbT9n6vpDKqpFbhOjkHxiVHpJH0wV+vI3piGHv9qp6d2HV+y3wdPbBzKnjDquRz0ZwlsFHV0sSfiIVIQw/F/B6zog0eULH7zmeamaJgYd7VtsEzuk1tE/w3RrgBC1TLQegAAAABJRU5ErkJggg==" },
   ],
 }));
-
+var isPlaying = false;
 let musicList = [
   "大风吹",
   "婚姻常识",
@@ -39,7 +39,7 @@ let musicList = [
   "please_dont_go",
 ]
 let musicUri = musicList.map((m) => '/musics/' + m + '.mp4');
-console.log(musicUri);
+
 var currentIndex = 0;
 function itemStyle(index: number) {
   let isPlaying = currentIndex == index;
@@ -56,20 +56,33 @@ function playLoopMusic() {
 }
 
 function playMusic(shouldLoop: boolean) {
-  console.log(currentIndex);
-
   let audio = document.querySelector("audio");
   let playerButton = document.querySelector(".music-button-icon");
   audio.setAttribute("src",musicUri[currentIndex]); 
-  if (shouldLoop) {
-    audio.play();
-  } else {
-    if (audio.paused) {
+  if (isPlaying) {
+    if (shouldLoop) {
+      console.log("Loop Play");
       audio.play();
-      playerButton.setAttribute("class", "music-button-icon music-puase-icon");
+      isPlaying = true;
+      playerButton.setAttribute("class", "music-button-icon music-pause-icon");
     } else {
+      console.log("Pause");
       audio.pause();
+      isPlaying = false;
       playerButton.setAttribute("class", "music-button-icon music-play-icon");
+    }
+  } else {
+    if (isPlaying) {
+      console.log("Pause");
+      audio.pause();
+      isPlaying = false;
+      playerButton.setAttribute("class", "music-button-icon music-play-icon");
+
+    } else {
+      console.log("Play");
+      audio.play();
+      isPlaying = true;
+      playerButton.setAttribute("class", "music-button-icon music-pause-icon");
     }
   }
   
@@ -80,9 +93,9 @@ function updateAudioTime() {
 
   const percentagePosition = (audio.currentTime) / audio.duration;
   console.log(percentagePosition);
+
   
   if (percentagePosition >= 0.99999999) {
-    // audio.stop()
     currentIndex = currentIndex + 1
     currentIndex = currentIndex % musicList.length
     console.log(currentIndex);
@@ -133,7 +146,7 @@ function updateAudioTime() {
         filter: invert(54%) sepia(4%) saturate(1085%) hue-rotate(73deg) brightness(94%) contrast(84%)
       .music-play-icon
         background-image url(/icons/play.png)
-      .music-puase-icon
+      .music-pause-icon
         background-image url(/icons/pause.png)
   .icon-play
     mask-image: url(icon.svg);
