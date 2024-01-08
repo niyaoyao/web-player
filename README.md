@@ -1,3 +1,8 @@
+# Dependency
+- Nuxt3
+- pug
+- stylus
+
 # Installation
 
 ## Install Node Module
