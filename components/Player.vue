@@ -48,7 +48,7 @@ function itemStyle(index: number) {
 function musicItemDidClick(index: number) {
   currentIndex = index;
   console.log(index);
-  // this.$set(this.musicList, index);
+  playLoopMusic()
 }
 
 function playLoopMusic() {
@@ -131,19 +131,20 @@ function updateAudioTime() {
     display flex
     flex-direction row
     justify-content flex-start
+    padding 10px
     .music-play-button
-      padding auto
       width 60px
       height 60px
       display flex
       justify-content center
       align-items center
+      border-radius 60px
+      border 2px solid #F2F1EB
       .music-button-icon
         background-size 30px 30px
         width 30px
         height 30px
-        border-radius 30px
-        filter: invert(54%) sepia(4%) saturate(1085%) hue-rotate(73deg) brightness(94%) contrast(84%)
+        filter invert(96%) sepia(9%) saturate(511%) hue-rotate(38deg) brightness(112%) contrast(89%)
       .music-play-icon
         background-image url(/icons/play.png)
       .music-pause-icon
