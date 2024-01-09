@@ -40,7 +40,7 @@ var currentIndex = ref(0);
 
 function itemStyle(index: number) {
   let isPlaying = currentIndex.value == index;
-  return isPlaying ? 'color:#88AB8E;background-color:#F2F1EB' : '';
+  return isPlaying ? 'color:#8d91aa;background-color:#f3f1ef' : '';
 }
 function musicItemDidClick(index: number) {
   currentIndex.value = index;
@@ -108,8 +108,8 @@ function updateAudioTime() {
   padding 0 auto
   .music-list
     overflow scroll
-    height 200px
-    background-color #eadfbc
+    height 300px
+    background-color #fff
     .music-item
       display block
       font-size 20px
@@ -118,52 +118,32 @@ function updateAudioTime() {
       font-family sans-serif
       cursor pointer
     .music-item:hover
-      background-color #EEE7DA
+      background-color #f9f5f2
   .music-player
-    background-color #AFC8AD
+    background-color #dce2ec
     height 60px
     padding 0
     display flex
     flex-direction row
     justify-content flex-start
-    padding 10px
+    padding 10px 15px
     .music-play-button
-      width 60px
-      height 60px
+      width 54px
+      height 54px
       display flex
       justify-content center
       align-items center
       border-radius 60px
-      border 2px solid #F2F1EB
+      border 3px solid #8d91aa
       cursor pointer
       .music-button-icon
         background-size 30px 30px
         width 30px
         height 30px
-        filter invert(96%) sepia(9%) saturate(511%) hue-rotate(38deg) brightness(112%) contrast(89%)
+        filter invert(63%) sepia(16%) saturate(378%) hue-rotate(194deg) brightness(89%) contrast(90%)
       .music-play-icon
         background-image url(/icons/play.png)
       .music-pause-icon
         background-image url(/icons/pause.png)
-  .icon-play
-    mask-image: url(icon.svg);
-  .iconfont
-    font-family "iconfont" !important
-    font-size 16px
-    font-style normal
-    -webkit-font-smoothing antialiased
-    -moz-osx-font-smoothing grayscale
-
-  .icon-play_solid:before
-    content "\e6de"
-
-
-  .icon-stop_solid:before
-    content "\e67a"
-
-
-  .icon-iconfont_loading_outline:before
-    content "\e6a7"
-
 
 </style>
