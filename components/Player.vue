@@ -51,11 +51,11 @@ function playLoopMusic() {
   playMusic(true);
 }
 
-function play(audio:HTMLAudioElement, playerButton: Element, index: number) {
+function play(audio:HTMLAudioElement, playerButton: Element, index: Number) {
   audio.play();
   isPlaying = true;
   playerButton.setAttribute("class", "music-button-icon music-pause-icon");
-  document.getElementById("list-item-" + index).scrollIntoView()
+  document.getElementById("list-item-" + index)!.scrollIntoView()
 }
 
 function pause(audio:HTMLAudioElement, playerButton: Element) {
