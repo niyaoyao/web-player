@@ -122,6 +122,7 @@ function updateAudioTime() {
       line-height 40px
       text-align center
       font-family sans-serif
+      cursor pointer
     .music-item:hover
       background-color #EEE7DA
   .music-player
@@ -140,6 +141,7 @@ function updateAudioTime() {
       align-items center
       border-radius 60px
       border 2px solid #F2F1EB
+      cursor pointer
       .music-button-icon
         background-size 30px 30px
         width 30px
