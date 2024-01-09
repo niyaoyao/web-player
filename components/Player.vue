@@ -3,11 +3,11 @@
 .player-panel
   .music-list
     .music-item(
-      v-for="(music, index) in musicList"
+      v-for="(music, index) in musicNames"
       :item="music"
       :style="itemStyle(index)"
       @click="musicItemDidClick(index)"
-      ) {{musicList[index]}}
+      ) {{musicNames[index]}}
   .music-player
     .music-play-button(@click="playMusic(false)")
       .music-button-icon.music-play-icon
@@ -16,6 +16,8 @@
 </template>
 
 <script setup lang="ts">
+import axios from 'axios';
+
 useHead(() => ({
   title: 'NY Player',
   meta: [
@@ -26,28 +28,21 @@ useHead(() => ({
   ],
 }));
 var isPlaying = false;
-let musicList = [
-  "大风吹",
-  "婚姻常识",
-  "漠河舞厅",
-  "勇气大爆发",
-  "圣斗士星矢",
-  "离别开出花",
-  "Believer",
-  "Digital_monster",
-  "SlamDunk",
-  "please_dont_go",
-]
-let musicUri = musicList.map((m) => '/musics/' + m + '.mp4');
+var musicUri = ref([])
+var musicNames = ref([])
+axios.get("musics/musics.json").then((response) => {
+  musicNames.value = response.data
+  musicUri.value = response.data.map((m) => '/musics/' + m + '.mp4')
+})
 
 var currentIndex = ref(0);
+
 function itemStyle(index: number) {
   let isPlaying = currentIndex.value == index;
   return isPlaying ? 'color:#88AB8E;background-color:#F2F1EB' : '';
 }
 function musicItemDidClick(index: number) {
   currentIndex.value = index;
-  console.log(index);
   playLoopMusic()
 }
 
@@ -55,54 +50,51 @@ function playLoopMusic() {
   playMusic(true);
 }
 
+function play(audio:HTMLAudioElement, playerButton: Element) {
+  audio.play();
+  isPlaying = true;
+  playerButton.setAttribute("class", "music-button-icon music-pause-icon");
+}
+
+function pause(audio:HTMLAudioElement, playerButton: Element) {
+  audio.pause();
+  isPlaying = false;
+  playerButton.setAttribute("class", "music-button-icon music-play-icon");
+}
+
 function playMusic(shouldLoop: boolean) {
-  let audio = document.querySelector("audio");
-  let playerButton = document.querySelector(".music-button-icon");
-  audio.setAttribute("src",musicUri[currentIndex.value]);
+  let audio:HTMLAudioElement = document.querySelector("audio")!;
+  let playerButton = document.querySelector(".music-button-icon")!;
+  audio.setAttribute("src",musicUri.value[currentIndex.value]);
   if (isPlaying) {
     if (shouldLoop) {
-      console.log("Loop Play");
-      audio.play();
-      isPlaying = true;
-      playerButton.setAttribute("class", "music-button-icon music-pause-icon");
+      console.log("Loop Play: " + currentIndex.value);
+      play(audio, playerButton)
     } else {
       console.log("Pause");
-      audio.pause();
-      isPlaying = false;
-      playerButton.setAttribute("class", "music-button-icon music-play-icon");
+      pause(audio, playerButton)
     }
   } else {
     if (isPlaying) {
       console.log("Pause");
-      audio.pause();
-      isPlaying = false;
-      playerButton.setAttribute("class", "music-button-icon music-play-icon");
-
+      pause(audio, playerButton)
     } else {
-      console.log("Play");
-      audio.play();
-      isPlaying = true;
-      playerButton.setAttribute("class", "music-button-icon music-pause-icon");
+      console.log("Play: " + currentIndex.value);
+      play(audio, playerButton)
     }
   }
 
 }
 
 function updateAudioTime() {
-  let audio = document.querySelector("audio");
-
+  let audio: HTMLAudioElement = document.querySelector("audio")!;
   const percentagePosition = (audio.currentTime) / audio.duration;
-  console.log(percentagePosition);
-
-
   if (percentagePosition >= 0.99999999) {
-    currentIndex = currentIndex + 1
-    currentIndex = currentIndex % musicList.length
-    console.log(currentIndex);
+    currentIndex.value = currentIndex.value + 1
+    currentIndex.value = currentIndex.value % musicUri.value.length
+    console.log(currentIndex.value);
     playLoopMusic();
   }
-  // timeline.style.backgroundSize = `${percentagePosition}% 100%`;
-  // timeline.value = percentagePosition;
 
 }
 </script>
