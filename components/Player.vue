@@ -40,13 +40,13 @@ let musicList = [
 ]
 let musicUri = musicList.map((m) => '/musics/' + m + '.mp4');
 
-var currentIndex = 0;
+var currentIndex = ref(0);
 function itemStyle(index: number) {
-  let isPlaying = currentIndex == index;
+  let isPlaying = currentIndex.value == index;
   return isPlaying ? 'color:#88AB8E;background-color:#F2F1EB' : '';
 }
 function musicItemDidClick(index: number) {
-  currentIndex = index;
+  currentIndex.value = index;
   console.log(index);
   playLoopMusic()
 }
@@ -58,7 +58,7 @@ function playLoopMusic() {
 function playMusic(shouldLoop: boolean) {
   let audio = document.querySelector("audio");
   let playerButton = document.querySelector(".music-button-icon");
-  audio.setAttribute("src",musicUri[currentIndex]); 
+  audio.setAttribute("src",musicUri[currentIndex.value]);
   if (isPlaying) {
     if (shouldLoop) {
       console.log("Loop Play");
@@ -85,7 +85,7 @@ function playMusic(shouldLoop: boolean) {
       playerButton.setAttribute("class", "music-button-icon music-pause-icon");
     }
   }
-  
+
 }
 
 function updateAudioTime() {
@@ -94,7 +94,7 @@ function updateAudioTime() {
   const percentagePosition = (audio.currentTime) / audio.duration;
   console.log(percentagePosition);
 
-  
+
   if (percentagePosition >= 0.99999999) {
     currentIndex = currentIndex + 1
     currentIndex = currentIndex % musicList.length
@@ -151,23 +151,23 @@ function updateAudioTime() {
         background-image url(/icons/pause.png)
   .icon-play
     mask-image: url(icon.svg);
-  .iconfont 
+  .iconfont
     font-family "iconfont" !important
     font-size 16px
     font-style normal
     -webkit-font-smoothing antialiased
     -moz-osx-font-smoothing grayscale
-  
-  .icon-play_solid:before 
+
+  .icon-play_solid:before
     content "\e6de"
-  
 
-  .icon-stop_solid:before 
+
+  .icon-stop_solid:before
     content "\e67a"
-  
 
-  .icon-iconfont_loading_outline:before 
+
+  .icon-iconfont_loading_outline:before
     content "\e6a7"
-  
+
 
 </style>
