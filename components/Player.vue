@@ -6,6 +6,7 @@
       v-for="(music, index) in musicNames"
       :item="music"
       :style="itemStyle(index)"
+      :id="'list-item-' + (index)"
       @click="musicItemDidClick(index)"
       ) {{musicNames[index]}}
   .music-player
@@ -50,10 +51,11 @@ function playLoopMusic() {
   playMusic(true);
 }
 
-function play(audio:HTMLAudioElement, playerButton: Element) {
+function play(audio:HTMLAudioElement, playerButton: Element, index: number) {
   audio.play();
   isPlaying = true;
   playerButton.setAttribute("class", "music-button-icon music-pause-icon");
+  document.getElementById("list-item-" + index).scrollIntoView()
 }
 
 function pause(audio:HTMLAudioElement, playerButton: Element) {
@@ -69,7 +71,7 @@ function playMusic(shouldLoop: boolean) {
   if (isPlaying) {
     if (shouldLoop) {
       console.log("Loop Play: " + currentIndex.value);
-      play(audio, playerButton)
+      play(audio, playerButton, currentIndex.value)
     } else {
       console.log("Pause");
       pause(audio, playerButton)
@@ -80,7 +82,7 @@ function playMusic(shouldLoop: boolean) {
       pause(audio, playerButton)
     } else {
       console.log("Play: " + currentIndex.value);
-      play(audio, playerButton)
+      play(audio, playerButton, currentIndex.value)
     }
   }
 
