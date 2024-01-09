@@ -36,10 +36,11 @@ class GenerateMusicList(object):
         filepath_list = []
         for filepath in dirs:
             filename, file_extension = os.path.splitext(filepath)
-            if filename != '.DS_Store':
+            if file_extension == '.mp4' :
                 filepath_list.append(filename)
         json_path = os.path.join(self.directory, 'musics.json')
         json_string = json.dumps(filepath_list)
+        LOG.info(json_string)
         with open(json_path, 'w') as json_file:
             json_file.write(json_string)
             
