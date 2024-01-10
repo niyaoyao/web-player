@@ -31,7 +31,7 @@ useHead(() => ({
 var isPlaying = false;
 var musicUri = ref([])
 var musicNames = ref([])
-let url = "https://github.com/niyaoyao/web-player/blob/main/public/musics/musics.json" // "musics/musics.json"
+let url = "musics/musics.json"
 axios.get(url).then((response) => {
   musicNames.value = response.data
   musicUri.value = response.data.map((m:string) => '/musics/' + m + '.mp4')
