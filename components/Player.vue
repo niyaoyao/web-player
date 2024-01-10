@@ -33,7 +33,7 @@ var musicUri = ref([])
 var musicNames = ref([])
 axios.get("musics/musics.json").then((response) => {
   musicNames.value = response.data
-  musicUri.value = response.data.map((m) => '/musics/' + m + '.mp4')
+  musicUri.value = response.data.map((m:string) => '/musics/' + m + '.mp4')
 })
 
 var currentIndex = ref(0);
