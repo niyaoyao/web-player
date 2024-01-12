@@ -12,6 +12,8 @@
   .music-player
     .music-play-button(@click="playMusic(false)")
       .music-button-icon.music-play-icon
+    .music-progress-bar
+    .music-play-mode-button(@click="changePlayMode") {{ playMode.value }}
   audio(style="display:none" ref="audioplayer" @timeupdate="updateAudioTime")
 
 </template>
@@ -31,13 +33,42 @@ useHead(() => ({
 var isPlaying = false;
 var musicUri = ref([])
 var musicNames = ref([])
-let url = "musics/musics.json"
-axios.get(url).then((response) => {
-  musicNames.value = response.data
-  musicUri.value = response.data.map((m:string) => '/musics/' + m + '.mp4')
-})
+
+function requestPlayList() {
+  let url = "musics/musics.json"
+  axios.get(url).then((response) => {
+     musicNames.value = response.data
+    musicUri.value = response.data.map((m:string) => '/musics/' + m + '.mp4')
+  })
+}
+requestPlayList()
 
 var currentIndex = ref(0);
+enum PlayMode {
+  Loop = "🔁",
+  Single = "🔂",
+  Random = "🔀"
+}
+
+var playMode:Ref<PlayMode> = ref(PlayMode.Loop)
+function changePlayMode() {
+  switch (playMode.value) {
+    case PlayMode.Loop:
+      playMode.value = PlayMode.Single
+      break;
+    case PlayMode.Single:
+      playMode.value = PlayMode.Random
+      break;
+    case PlayMode.Random:
+      playMode.value = PlayMode.Loop
+      break;
+    default:
+      playMode.value = PlayMode.Loop
+      break;
+  }
+  console.log(playMode.value);
+  
+}
 
 function itemStyle(index: number) {
   let isPlaying = currentIndex.value == index;
@@ -93,7 +124,21 @@ function updateAudioTime() {
   let audio: HTMLAudioElement = document.querySelector("audio")!;
   const percentagePosition = (audio.currentTime) / audio.duration;
   if (percentagePosition >= 0.99999999) {
-    currentIndex.value = currentIndex.value + 1
+    switch (playMode.value) {
+      case PlayMode.Loop:
+        currentIndex.value = currentIndex.value + 1
+        break;
+      case PlayMode.Single:
+        currentIndex.value = currentIndex.value
+        break;
+      case PlayMode.Random:
+        currentIndex.value = Math.floor(Math.random() * musicUri.value.length)
+        break;
+      default:
+        currentIndex.value = currentIndex.value + 1
+        break;
+    }
+    
     currentIndex.value = currentIndex.value % musicUri.value.length
     console.log(currentIndex.value);
     playLoopMusic();
@@ -131,6 +176,19 @@ function updateAudioTime() {
     justify-content flex-start
     padding 10px 15px
     border-radius 10px
+    .music-progress-bar
+      flex: 1
+    .music-play-mode-button
+      width 54px
+      display flex
+      justify-content center
+      align-items center
+      cursor pointer
+      .music-play-mode-icon
+        background-size 30px 30px
+        width 30px
+        height 30px
+        filter invert(63%) sepia(16%) saturate(378%) hue-rotate(194deg) brightness(89%) contrast(90%)
     .music-play-button
       width 54px
       height 54px
