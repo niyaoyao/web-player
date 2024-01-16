@@ -204,8 +204,8 @@ function updateAudioTime() {
         height 30px
         filter invert(63%) sepia(16%) saturate(378%) hue-rotate(194deg) brightness(89%) contrast(90%)
       .music-play-icon
-        background-image url(/icons/play.png)
+        background-image url(/icons/play-fill.svg)
       .music-pause-icon
-        background-image url(/icons/pause.png)
+        background-image url(/icons/pause-fill.svg)
 
 </style>
