@@ -163,7 +163,7 @@ function updateAudioTime() {
   padding 0 auto
   .music-list
     overflow scroll
-    height 300px
+    height 600px
     background-color #fff
     .music-item
       display block
