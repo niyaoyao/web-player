@@ -13,7 +13,8 @@
     .music-play-button(@click="playMusic(false)")
       .music-button-icon.music-play-icon
     .music-progress-bar
-    .music-play-mode-button(@click="changePlayMode") {{ playMode.value }}
+    .music-play-mode-button(@click="changePlayMode")
+      .music-play-mode-icon.music-play-mode-repeat-icon
   audio(style="display:none" ref="audioplayer" @timeupdate="updateAudioTime")
 
 </template>
@@ -52,20 +53,28 @@ enum PlayMode {
 
 var playMode:Ref<PlayMode> = ref(PlayMode.Loop)
 function changePlayMode() {
+  let playModeButton = document.querySelector(".music-play-mode-icon")!;
+  var playModeIcon = "music-play-mode-icon music-play-mode-repeat-icon"
   switch (playMode.value) {
     case PlayMode.Loop:
       playMode.value = PlayMode.Single
+      playModeIcon = "music-play-mode-icon music-play-mode-repeat-1-icon"
       break;
     case PlayMode.Single:
       playMode.value = PlayMode.Random
+      playModeIcon = "music-play-mode-icon music-play-mode-shuffle-icon"
       break;
     case PlayMode.Random:
       playMode.value = PlayMode.Loop
+      playModeIcon = "music-play-mode-icon music-play-mode-repeat-icon"
       break;
     default:
       playMode.value = PlayMode.Loop
+      playModeIcon = "music-play-mode-icon music-play-mode-repeat-icon"
       break;
   }
+  playModeButton.setAttribute("class", playModeIcon);
+
   console.log(playMode.value);
   
 }
@@ -184,6 +193,12 @@ function updateAudioTime() {
       justify-content center
       align-items center
       cursor pointer
+      .music-play-mode-repeat-icon
+        background-image url(/icons/repeat.svg)
+      .music-play-mode-repeat-1-icon
+        background-image url(/icons/repeat-1.svg)
+      .music-play-mode-shuffle-icon
+        background-image url(/icons/shuffle.svg)
       .music-play-mode-icon
         background-size 30px 30px
         width 30px
