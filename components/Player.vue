@@ -15,7 +15,7 @@
     .music-play-next-button(@click="playPrevious")
       .music-play-next-icon-filter.music-play-previous-icon
     .music-progress-bar
-      input(type="range" value="0")
+      input(type="range" value="0" @change="prograssBarChanged")
     .music-play-next-button(@click="playNext")
       .music-play-next-icon-filter.music-play-next-icon
     .music-play-mode-button(@click="changePlayMode")
@@ -152,7 +152,8 @@ function updateAudioTime() {
   let timeline: HTMLInputElement = document.querySelector("[type='range']")!;
   const percentagePosition = (audio.currentTime) / audio.duration;
   timeline.style.backgroundSize = `${percentagePosition}% 100%`;
-  timeline.value = `${percentagePosition}`;
+  let pos = percentagePosition * 100;
+  timeline.value = `${pos}`;
   
   if (percentagePosition >= 0.99999999) {
     switch (playMode.value) {
