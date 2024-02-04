@@ -15,6 +15,7 @@
     .music-play-next-button(@click="playPrevious")
       .music-play-next-icon-filter.music-play-previous-icon
     .music-progress-bar
+      input(type="range" value="0")
     .music-play-next-button(@click="playNext")
       .music-play-next-icon-filter.music-play-next-icon
     .music-play-mode-button(@click="changePlayMode")
@@ -148,7 +149,11 @@ function playMusic(shouldLoop: boolean) {
 
 function updateAudioTime() {
   let audio: HTMLAudioElement = document.querySelector("audio")!;
+  let timeline: HTMLInputElement = document.querySelector("[type='range']")!;
   const percentagePosition = (audio.currentTime) / audio.duration;
+  timeline.style.backgroundSize = `${percentagePosition}% 100%`;
+  timeline.value = `${percentagePosition}`;
+  
   if (percentagePosition >= 0.99999999) {
     switch (playMode.value) {
       case PlayMode.Loop:
@@ -170,6 +175,13 @@ function updateAudioTime() {
     playLoopMusic();
   }
 
+}
+
+function prograssBarChanged() {
+  let timeline: HTMLInputElement = document.querySelector("[type='range']")!;
+  let audio: HTMLAudioElement = document.querySelector("audio")!;
+  const time = (parseFloat(timeline.value) * audio.duration) / 100;
+  audio.currentTime = time;
 }
 </script>
 
@@ -205,6 +217,19 @@ function updateAudioTime() {
     align-items center
     .music-progress-bar
       flex: 1
+      [type="range"] 
+        margin 0
+        outline 0
+        padding 4px 0
+        filter brightness(0) saturate(100%) invert(57%) sepia(9%) saturate(673%) hue-rotate(194deg) brightness(99%) contrast(93%)
+        width 100%
+        height 2px
+      [type="range"]::-webkit-slider-runnable-track 
+          height 1px
+          background #fff
+      [type="range"]::-webkit-slider-thumb 
+        margin-top: -7px;
+      
     .music-play-next-button
       width 54px
       display flex
@@ -219,7 +244,7 @@ function updateAudioTime() {
         background-size 30px 30px
         width 30px
         height 30px
-        filter invert(63%) sepia(16%) saturate(378%) hue-rotate(194deg) brightness(89%) contrast(90%)
+        filter brightness(0) saturate(100%) invert(57%) sepia(9%) saturate(673%) hue-rotate(194deg) brightness(99%) contrast(93%)
     .music-play-mode-button
       width 54px
       display flex
@@ -236,7 +261,7 @@ function updateAudioTime() {
         background-size 30px 30px
         width 30px
         height 30px
-        filter invert(63%) sepia(16%) saturate(378%) hue-rotate(194deg) brightness(89%) contrast(90%)
+        filter brightness(0) saturate(100%) invert(57%) sepia(9%) saturate(673%) hue-rotate(194deg) brightness(99%) contrast(93%)
     .music-play-button
       width 35px
       height 35px
@@ -250,7 +275,7 @@ function updateAudioTime() {
         background-size 30px 30px
         width 30px
         height 30px
-        filter invert(63%) sepia(16%) saturate(378%) hue-rotate(194deg) brightness(89%) contrast(90%)
+        filter brightness(0) saturate(100%) invert(57%) sepia(9%) saturate(673%) hue-rotate(194deg) brightness(99%) contrast(93%)
       .music-play-icon
         background-image url(/icons/play-fill.svg)
       .music-pause-icon
