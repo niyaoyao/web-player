@@ -38,8 +38,8 @@ var musicNames = ref([])
 function requestPlayList() {
   let url = "musics/musics.json"
   axios.get(url).then((response) => {
-     musicNames.value = response.data
-    musicUri.value = response.data.map((m:string) => '/musics/' + m + '.mp4')
+     musicNames.value = response.data.map((file:string) => file.substring(0, file.lastIndexOf(".")));
+    musicUri.value = response.data.map((m:string) => '/musics/' + m)
   })
 }
 requestPlayList()
@@ -108,6 +108,7 @@ function pause(audio:HTMLAudioElement, playerButton: Element) {
 function playMusic(shouldLoop: boolean) {
   let audio:HTMLAudioElement = document.querySelector("audio")!;
   let playerButton = document.querySelector(".music-button-icon")!;
+
   audio.setAttribute("src",musicUri.value[currentIndex.value]);
   if (isPlaying) {
     if (shouldLoop) {
