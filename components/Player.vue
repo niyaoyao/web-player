@@ -270,7 +270,7 @@ function prograssBarChanged() {
       justify-content center
       align-items center
       border-radius 60px
-      border 2px solid #8d91aa
+      border 3px solid #8d91aa
       cursor pointer
       .music-button-icon
         background-size 30px 30px
