@@ -12,7 +12,11 @@
   .music-player
     .music-play-button(@click="playMusic(false)")
       .music-button-icon.music-play-icon
+    .music-play-next-button(@click="playPrevious")
+      .music-play-next-icon-filter.music-play-previous-icon
     .music-progress-bar
+    .music-play-next-button(@click="playNext")
+      .music-play-next-icon-filter.music-play-next-icon
     .music-play-mode-button(@click="changePlayMode")
       .music-play-mode-icon.music-play-mode-repeat-icon
   audio(style="display:none" ref="audioplayer" @timeupdate="updateAudioTime")
@@ -86,6 +90,18 @@ function itemStyle(index: number) {
 function musicItemDidClick(index: number) {
   currentIndex.value = index;
   playLoopMusic()
+}
+
+function playNext() {
+  currentIndex.value = currentIndex.value + 1;
+  currentIndex.value = currentIndex.value % musicUri.value.length;
+  playLoopMusic();
+}
+
+function playPrevious() {
+  currentIndex.value = currentIndex.value - 1 >= 0 ? currentIndex.value - 1 : musicNames.value.length - 1;
+  currentIndex.value = currentIndex.value % musicUri.value.length;
+  playLoopMusic();
 }
 
 function playLoopMusic() {
@@ -186,8 +202,24 @@ function updateAudioTime() {
     justify-content flex-start
     padding 10px 15px
     border-radius 10px
+    align-items center
     .music-progress-bar
       flex: 1
+    .music-play-next-button
+      width 54px
+      display flex
+      justify-content center
+      align-items center
+      cursor pointer
+      .music-play-previous-icon
+        background-image url(/icons/skip-start-fill.svg)
+      .music-play-next-icon
+        background-image url(/icons/skip-end-fill.svg)
+      .music-play-next-icon-filter
+        background-size 30px 30px
+        width 30px
+        height 30px
+        filter invert(63%) sepia(16%) saturate(378%) hue-rotate(194deg) brightness(89%) contrast(90%)
     .music-play-mode-button
       width 54px
       display flex
@@ -206,13 +238,13 @@ function updateAudioTime() {
         height 30px
         filter invert(63%) sepia(16%) saturate(378%) hue-rotate(194deg) brightness(89%) contrast(90%)
     .music-play-button
-      width 54px
-      height 54px
+      width 35px
+      height 35px
       display flex
       justify-content center
       align-items center
       border-radius 60px
-      border 3px solid #8d91aa
+      border 2px solid #8d91aa
       cursor pointer
       .music-button-icon
         background-size 30px 30px

@@ -20,7 +20,7 @@ npm run dev
 - [x] Highlight and Scroll to Current Music Item
 - [x] Random Playing
 - [ ] Play Progress Bar
-- [ ] Previous and Next Button
+- [x] Previous and Next Button
 - [ ] Volume Control
 
 
