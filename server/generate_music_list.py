@@ -39,6 +39,7 @@ class GenerateMusicList(object):
         json_path = os.path.join(self.directory, 'musics.json')
         json_string = json.dumps(filepath_list)
         LOG.info(json_string)
+        LOG.info("Total: {}".format(len(filepath_list)))
         with open(json_path, 'w') as json_file:
             json_file.write(json_string)
             
