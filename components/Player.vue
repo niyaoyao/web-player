@@ -205,6 +205,7 @@ function prograssBarChanged() {
       font-family sans-serif
       border-radius 10px
       cursor pointer
+      padding 0 10px
     .music-item:hover
       background-color #f9f5f2
       border-radius 10px
