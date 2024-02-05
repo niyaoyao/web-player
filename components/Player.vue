@@ -43,7 +43,9 @@ var musicNames = ref([])
 function requestPlayList() {
   let url = "musics/musics.json"
   axios.get(url).then((response) => {
-     musicNames.value = response.data.map((file:string) => file.substring(0, file.lastIndexOf(".")));
+    let names = response.data.map((file:string) => file.substring(0, file.lastIndexOf(".")));
+    names = names.map((name: string) => `${names.indexOf(name)}. ` + name);
+    musicNames.value = names;
     musicUri.value = response.data.map((m:string) => '/musics/' + m)
   })
 }
@@ -189,8 +191,8 @@ function prograssBarChanged() {
 <style lang="stylus" scoped>
 .player-panel
   color #666666
-  margin 0 auto
-  padding 0 auto
+  margin 0
+  padding 5px
   .music-list
     overflow scroll
     height 600px
@@ -199,7 +201,7 @@ function prograssBarChanged() {
       display block
       font-size 20px
       line-height 40px
-      text-align center
+      text-align left
       font-family sans-serif
       border-radius 10px
       cursor pointer
