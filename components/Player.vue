@@ -186,6 +186,11 @@ function prograssBarChanged() {
   const time = (parseFloat(timeline.value) * audio.duration) / 100;
   audio.currentTime = time;
 }
+nextTick(() => {
+  let h = document.documentElement.clientHeight - 8 * 2 - 60 - 30;
+  let musicList = document.getElementsByClassName("music-list")[0];
+  musicList.setAttribute("style", `height:${h}px`);
+})
 </script>
 
 <style lang="stylus" scoped>
