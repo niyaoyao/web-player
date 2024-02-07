@@ -1,5 +1,6 @@
-# Dependency
+# Tech Stack
 - Nuxt3
+- Vue3
 - pug
 - stylus
 
@@ -22,5 +23,5 @@ npm run dev
 - [x] Play Progress Bar
 - [x] Previous and Next Button
 - [ ] Volume Control
-
+- [ ] Resume breakpoint/Local Storage
 
