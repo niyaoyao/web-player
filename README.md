@@ -22,6 +22,7 @@ npm run dev
 - [x] Random Playing
 - [x] Play Progress Bar
 - [x] Previous and Next Button
+- [ ] Category List
 - [ ] Volume Control
 - [ ] Resume breakpoint/Local Storage
 
