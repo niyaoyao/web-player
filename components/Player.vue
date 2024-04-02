@@ -46,7 +46,7 @@ function requestPlayList() {
     let names = response.data.map((file:string) => file.substring(0, file.lastIndexOf(".")));
     names = names.map((name: string) => `${names.indexOf(name)}. ` + name);
     musicNames.value = names;
-    musicUri.value = response.data.map((m:string) => '/musics/' + m)
+    musicUri.value = response.data.map((m:string) => encodeURIComponent('musics/' + m))
   })
 }
 requestPlayList()
